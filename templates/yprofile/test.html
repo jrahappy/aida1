@@ -1,0 +1,52 @@
+# def YourProfile(req, user_id):
+
+#     custom_user = get_object_or_404(CustomUser, pk=user_id)
+
+#     context = {
+#         'custom_user_id': user_id,
+#         'username': custom_user.username,
+#         'first_name': custom_user.first_name,
+#         'last_name': custom_user.last_name,
+#         'email': custom_user.email,
+#         'phone': custom_user.phone,
+#     }
+
+#     return HttpResponse('your id is ' + str(custom_user.id))
+#     return redirect('your_profile', user_id=custom_user.id)
+
+#     return render(req, 'yprofile/profile.html', context)
+
+# def ProfileMod(req, user_id):
+
+#     custom_user = get_object_or_404(CustomUser, pk=user_id)
+
+#     if req.method == 'POST':
+#         custom_user.first_name = req.POST.get('first_name')
+#         custom_user.last_name = req.POST.get('last_name')
+#         custom_user.phone = req.POST.get('phone')
+
+#         custom_user.save()
+
+#         return redirect('yprofile:your_profile', user_id=custom_user.id)
+#     else:
+#         return redirect('yprofile:your_profile', user_id=custom_user.id)
+
+
+# def ProfileChangeSave(request, user_id):
+
+#     custom_user = get_object_or_404(CustomUser, pk=user_id)
+
+    # if request.method == 'POST':
+    #     form = CustomUserChangeForm(request.POST, instance=custom_user)
+    #     if form.is_valid():
+    #         custom_user = form.save(commit=False)
+    #         custom_user.first_name = request.POST.get('first_name'),
+    #         custom_user.last_name = request.POST.get('last_name'),
+    #         custom_user.email = request.POST.get('email'),
+    #         custom_user.phone = request.POST.get('phone')
+    #         custom_user.save()
+    #         return redirect('yprofile:your_profile', user_id=custom_user.id)
+    # else:
+    #     form = CustomUserChangeForm(instance=custom_user)
+    # context = {'form': form}
+    # return render(request, 'yprofile/profile.html', context)

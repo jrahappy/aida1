@@ -1,0 +1,46 @@
+<form action="{% url 'customers:person_create' customer.id %}" method="post">
+    <div class="col my-2">
+        
+    {% csrf_token %}
+    <!-- 오류표시 Start -->
+    {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field in form %}
+                {% if field.errors %}
+                <div>
+                    <strong>{{ field.label }}</strong>
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <!-- 오류표시 End -->
+        <div class="form-group">
+            <div class="row mb-2">
+                <div class="col-4">
+                    <input type="text" class="form-control" name="full_name" id="full_name" placeholder="Full name">
+                </div>
+                <div class="col-4">
+                    <input type="text" class="form-control" name="email" id="email" placeholder="Email">
+                </div>
+                <div class="col-2">
+                    <input type="text" class="form-control" name="cellphone" id="cellphone" placeholder="Cellphone">
+                </div>
+                <div class="col-2">
+                    <input type="text" class="form-control" name="office_phone" id="office_phone" placeholder="Office phone">
+                </div>
+                <div class="col-8 my-2">
+                    <input type="text" class="form-control" name="description" id="description" placeholder="Memo">
+                </div>
+                
+
+            </div>
+        
+            <input type="submit" value="Add a contact" class="btn btn-primary">
+
+            
+        </div>
+    </div>
+    </form>
+    

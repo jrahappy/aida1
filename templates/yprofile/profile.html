@@ -1,0 +1,67 @@
+{% extends '_base.html' %}
+
+{% block title %}About{% endblock title %}
+
+
+{% block content %}
+    
+<h1> Profile</h1>
+<form method="post" >
+    {% csrf_token %}
+     <!-- message  -->
+     {% if messages %}
+        <div class="alert alert-danger my-3" role="alert">
+        {% for message in messages %}
+            <strong>{{ message.tags }}</strong>
+            <ul><li>{{ message.message }}</li></ul>
+        {% endfor %}
+        </div>
+     {% endif %}
+     
+     <div class="row mb-3">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">User name</label>
+        <div class="col-sm-10">
+            <input name="username" class="form-control" id="username"  value="{{ form.username.value }}">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">First name</label>
+        <div class="col-sm-10">
+            <input name="first_name" class="form-control" id="first_name"  value="{{ form.first_name.value }}">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">Last name</label>
+        <div class="col-sm-10">
+            <input name="last_name" class="form-control" id="last_name" value="{{ form.last_name.value }}">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+          <input name="email" class="form-control" id="email" value="{{ form.email.value }}">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">Phone</label>
+        <div class="col-sm-10">
+          <input name="phone" class="form-control" id="phone" value="{{ form.phone.value }}">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">Department</label>
+        <div class="col-sm-10">
+          <input name="department" class="form-control" id="department" value="{{form.department.value }}">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">Sales Area</label>
+        <div class="col-sm-10">
+          <input name="sales_area" class="form-control" id="sales_area" value="{{ form.sales_area.value }}">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+  <a href="{% url 'yprofile:your_profile' user.id %}" >Go </a>
+{% endblock content %}
+    

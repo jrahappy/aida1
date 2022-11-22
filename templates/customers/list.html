@@ -1,0 +1,58 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row ">
+      <div class="col-8 pt-3">
+        <h3>Customers</h3>
+      </div>
+      <div class="col-4 pt-4 text-end">
+        <a href="{% url 'customers:create' %}" class="btn btn-md btn-primary  ">Create a customer</a>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-4 my-4">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-sm btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col table-responsible">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <td>Business name</td>
+                    <td>Contact</td>
+                    <td>City</td>
+                    <td>State</td>
+                    <td>Phone</td>
+                    <td>-</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customer_list %}
+                <tr>
+                    <td>{{ customer.business }}</td>
+                    <td>{{ customer.contact_name }}</td>
+                    <td>{{ customer.city }}</td>
+                    <td>{{ customer.state }}</td>
+                    <td>{{ customer.phone }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'customers:detail' customer.id%}" class="btn btn-md btn-primary">
+                            Detail
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}

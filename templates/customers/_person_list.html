@@ -1,0 +1,21 @@
+{% for person in customer.person_set.all %}
+    {% if person.is_deleted == False %}
+        <div class="col-3 my-2">
+        <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ person.full_name  }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{person.email}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">c:{{person.cellphone}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">p:{{person.office_phone}}</h6>
+                    <p class="card-text">{{ person.description }} / {{ person.is_deleted }}</p>
+                    <button hx-get="{% url 'customers:edit_person' person.id %}" hx-target="#dialog" class="btn btn-link">
+                        Edit
+                    </button>
+                    <button hx-get="{% url 'customers:delete_confirm_person' person.id %}" hx-target="#dialog" class="btn btn-link">
+                        Remove
+                    </button>
+                </div>
+            </div>
+        </div>        
+    {% endif%}
+{% endfor%}
