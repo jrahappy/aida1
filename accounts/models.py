@@ -12,6 +12,13 @@ class CustomUser(AbstractUser):
         ('MANUF', 'Manufacturing'),
         ('PLANN', 'Planning'),
     ]
+    USER_CATEGORY = [
+        ('patient', 'Patient'),
+        ('provider', 'Provider'),
+        ('referer', 'Referer'),
+    ]
+    user_category = models.CharField(
+        max_length=2, null=False, blank=False, default='patient')
     phone = models.CharField('Phone', max_length=20, null=True, blank=True)
     department = models.CharField(
         max_length=5, choices=WORKING_DEPARTMENT, default='SALES', null=True, blank=True)

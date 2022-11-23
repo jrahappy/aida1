@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'board.apps.BoardConfig',
     'customers.apps.CustomersConfig',
+    'products.apps.ProductsConfig',
+    'cases.apps.CasesConfig',
 
     'crispy_forms',
     'crispy_bootstrap5',

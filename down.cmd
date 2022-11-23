@@ -1,3 +1,3 @@
 @echo off
-cd d:/aidaweb/
-d:/aidaweb/venv/Scripts/deactivate
+cd d:/aida1/
+d:/aida1/venv/Scripts/deactivate

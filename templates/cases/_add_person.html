@@ -1,0 +1,52 @@
+<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content">
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">New Contact</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+    
+        <div class="col my-2">
+            
+            {% csrf_token %}
+            <!-- 오류표시 Start -->
+            {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for field in form %}
+                        {% if field.errors %}
+                        <div>
+                            <strong>{{ field.label }}</strong>
+                            {{ field.errors }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <!-- 오류표시 End -->
+            <div class="form-group">
+                <div class="row ">
+                    <div class="col-12 my-1">
+                        <input type="text" class="form-control" name="full_name" id="full_name" placeholder="Full name">
+                    </div>
+                    <div class="col-12 my-1">
+                        <input type="text" class="form-control" name="email" id="email" placeholder="Email">
+                    </div>
+                    <div class="col-6 my-1">
+                        <input type="text" class="form-control" name="cellphone" id="cellphone" placeholder="Cellphone">
+                    </div>
+                    <div class="col-6 my-1">
+                        <input type="text" class="form-control" name="office_phone" id="office_phone" placeholder="Office phone">
+                    </div>
+                    <div class="col-12 my-1">
+                        <input type="text" class="form-control" name="description" id="description" placeholder="Description">
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Add a contact</button>
+    </div>
+</form>

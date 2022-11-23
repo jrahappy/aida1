@@ -1,0 +1,20 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<a href="#" class="text-blue-500">Create a new Product</a>
+
+{% for product in products %}
+
+<div class="mt-2 px-3 py-2 bg-gray-100 rounded-sm">
+    <h3 class="text-3xl text-gray-900">{{ product.category }}</h3>
+    <h3 class="text-3xl text-gray-900">{{ product.name }}</h3>
+    <h3 class="text-3xl text-gray-900">{{ product.price }}</h3>
+    <a href="#" class="btn btn-primary">
+        View details
+    </a>
+</div>
+
+{% endfor %}
+
+{% endblock content %}

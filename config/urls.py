@@ -27,6 +27,7 @@ urlpatterns = [
     # Local apps
     path("board/", include("board.urls")),
     path("customers/", include("customers.urls")),
+    path("products/", include("products.urls")),
 
     path("", include("pages.urls")),
 
