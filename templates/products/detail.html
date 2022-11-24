@@ -2,24 +2,51 @@
 
 {% block content %}
 
-<div class="px-3 py-2 bg-gray-100 rounded-sm">
-    <p class="text-gray-600 text-sm">{{ Post.id }}</p>
-    <h3 class="text-3xl text-gray-900">{{ Post.title }}</h3>
-    <p class="text-gray-900">{{ Post.created }}</p>
-    <p class="text-gray-600 text-sm">{{ Post.author }}</p>
-
-    {% if request.user.is_staff %}
-    
-    <div class="mt-5 py-5 border-t border-gray-200">
-        <a href="{% url 'board:update' Post.id %}" class="text-blue-500">
-            Edit
-        </a>
-        /
-        <a href="{% url 'board:delete' Post.id %}" class="ml-3 text-blue-500">
-            Delete
-        </a>
+<div class="container">
+    <div class="row ">
+        <div class="col-8 pt-3">
+            <h3>Product detail</h3>
+        </div>
+        <div class="col-4 pt-4 text-end">
+            <a href="{% url 'products:list' %}" class="btn btn-md btn-primary  ">Product list</a>
+        </div>
     </div>
-    {% endif %}
+    <div class="row">
+        <div class="col my-4">
+           
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="row mb-2 ">
+                <div class="col-3">
+                    {{product.category}}
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-3">
+                    {{product.name}}
+                </div>
+            </div>
+            <div class="row mb-2 ">
+                <div class="col-3">
+                    ${{product.price}}
+                </div>
+            </div>
+            {% if request.user.is_staff %}
+            
+            <div class="mt-5 py-5 border-t border-gray-200">
+                <a href="{% url 'products:list' %}" class="text-blue-500">
+                    Edit
+                </a>
+                /
+                <a href="{% url 'products:list' %}" class="ml-3 text-blue-500">
+                    Delete
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 
 </div>
 

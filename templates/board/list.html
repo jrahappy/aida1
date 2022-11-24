@@ -9,7 +9,7 @@
 <div class="mt-2 px-3 py-2 bg-gray-100 rounded-sm">
     <h3 class="text-3xl text-gray-900">{{ post.title }}</h3>
     <h3 class="text-3xl text-gray-900">{{ post.author }}</h3>
-    <h3 class="text-3xl text-gray-900">{{ post.created }}</h3>
+    <h3 class="text-3xl text-gray-900">{{ post.created|timesince }} ago</h3>
     <a href="{% url 'board:detail' post.id %}" class="btn btn-primary">
         View details
     </a>
