@@ -1,0 +1,136 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row ">
+            <div class="col-8 pt-3">
+                <h3>Customer</h3>
+            </div>
+            <div class="col-4 pt-4 text-end">
+                <a value="Cancel" class="btn btn-primary mx-4" href="{% url 'customers:modify' customer.id %}">  Edit  </a>
+                <a href="{% url 'customers:list' %}" class="btn btn-md btn-primary  ">Customer list</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 my-4">
+               
+            </div>
+        </div>
+        <div class="row">
+            <div class="col my-2">
+                <div class="card" style="width: 58rem;">
+                    <div class="card-body">
+                        <h2 class="card-title">{{customer.business}} / {{ customer.contact_name }}</h2>
+                        {% if customer.website %}
+                        <h6>{{ customer.website }}</h6>
+                        {% else %}
+                        {% endif%}
+                        <h6>{{ customer.address }} {{ customer.suite }}, {{ customer.city }} {{ customer.state }} {{ customer.zipcode }} {{ customer.country }}</h6>
+                        <p>{{customer.description }}</p>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" hx-trigger="load, personListChanged from:body" hx-get="{% url 'person_list' %}" hx-target="this">
+            
+            {% for person in customer.person_set.all %}
+            <div class="col-2 my-2">
+               <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"> {{ person.full_name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{person.email}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">c:{{person.cellphone}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">p:{{person.office_phone}}</h6>
+                        <p class="card-text">{{ person.description }} </p>
+                        <a href="#" class="card-link">Edit</a>
+                        <a href="#" class="card-link">Delete</a>
+                    </div>
+                </div>
+            </div>        
+            {% endfor%}
+            
+        </div>
+        <div class="row">
+            <div class="col">
+                <div id="modal" class="modal fade">
+                    <div id="dialog" class="modal-dialog" hx-target="this">
+
+                    </div>
+                </div>
+                <button hx-get="{% url 'add_movie' %}" hx-target="#dialog" class="btn btn-primary">
+                    Add a movie
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2 my-2">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#personModal">
+                    Add Contact
+                </button>
+            </div>
+            <div class="modal fade" id="personModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{% url 'customers:person_create' customer.id %}" method="post" name="f_add_parson">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">New contact</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        
+                            <div class="col my-2">
+                                
+                                {% csrf_token %}
+                                <!-- 오류표시 Start -->
+                                {% if form.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for field in form %}
+                                            {% if field.errors %}
+                                            <div>
+                                                <strong>{{ field.label }}</strong>
+                                                {{ field.errors }}
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <!-- 오류표시 End -->
+                                <div class="form-group">
+                                    <div class="row mb-2">
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" name="full_name" id="full_name" placeholder="Full name">
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" name="email" id="email" placeholder="Email">
+                                        </div>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" name="cellphone" id="cellphone" placeholder="Cellphone">
+                                        </div>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control" name="office_phone" id="office_phone" placeholder="Office phone">
+                                        </div>
+                                        <div class="col-8 my-2">
+                                            <input type="text" class="form-control" name="description" id="description" placeholder="Memo">
+                                        </div>
+                                        
+                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Add a contact</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
+{% endblock %}

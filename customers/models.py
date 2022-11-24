@@ -95,6 +95,7 @@ class Customer(models.Model):
     updated = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False)
     deleted = models.DateTimeField(auto_now=True)
+    is_myclinic = models.BooleanField(default=False)
 
     def __str__(self):
         return self.business

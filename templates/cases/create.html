@@ -1,0 +1,100 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row ">
+            <div class="col-8 pt-3">
+                <h3>New customer</h3>
+            </div>
+            <div class="col-4 pt-4 text-end">
+                <a href="{% url 'customers:list' %}" class="btn btn-md btn-primary  ">Customer list</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col my-4">
+               
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <form method="post">
+                    {% csrf_token %}
+                    <!-- error start -->
+                    {% if form.errors %}
+                        <div class="row alert alert-danger" role="alert">
+                            {% for field in form %}
+                                {% if field.errors %}
+                                <div>
+                                    <strong>{{ field.label }}</strong>
+                                    {{ field.errors }}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <!-- error End -->
+                    <div class="row mb-2 ">
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="business" id="business" placeholder="Business name" 
+                            value="{{ form.business.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="address" id="address" placeholder="Address" 
+                            value="{{ form.address.value|default_if_none:'' }}">
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" name="suite" id="suite" placeholder="Suite" 
+                            value="{{ form.suite.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="city" id="city" placeholder="City" 
+                            value="{{ form.city.value|default_if_none:'' }}">
+                        </div>
+                        <div class="col-2">
+                            {{ form.state }}
+                        </div>
+                        <div class="col-2">
+                            <input type="text" class="form-control" name="zipcode" id="zipcode" placeholder="Zip code" 
+                            value="{{ form.zipcode.value|default_if_none:'' }}">
+                        </div>
+                        <div class="col-2">
+                            {{ form.country }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="website" id="website" placeholder="Website address" 
+                            value="{{ form.website.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-2">
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="contact_name" id="contact_name" placeholder="Contact name" 
+                            value="{{ form.contact_name.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-10">
+                            <textarea class="form-control" name="description" id="description" placeholder="Description" 
+                            value="{{ form.description.value|default_if_none:'' }}"></textarea>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 d-md-block">
+                        <input type="submit" value="  Save  " class="btn btn-primary">
+                        
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+    
+{% endblock %}
