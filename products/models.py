@@ -4,15 +4,16 @@ from django.urls import reverse
 
 
 class Product(models.Model):
-    class Category(models.TextChoices):
-        CBCT = "01", "CBCT"
-        PANO = "02", "Panoramic"
-        CEPH = "03", "Cephalomeric"
+    CATEGORY_CHOICES = [
+        ('CBCT', 'Conebeam CT'),
+        ('PANO', 'Panoramic'),
+        ('CEPH', 'Cephalo'),
 
+    ]
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     category = models.CharField(
         max_length=5,
-        choices=Category.choices,
+        choices=CATEGORY_CHOICES,
         default='CBCT'
     )
     name = models.CharField(max_length=30, null=False, blank=False)

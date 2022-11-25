@@ -15,7 +15,9 @@
     <div class="row">
         <div class="col-4 my-4">
             <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2" id="search_kw" type="search" placeholder="Search" aria-label="Search"
+                 value="{{kw|default_if_none:'' }}"
+                >
                 <button class="btn btn-sm btn-outline-success" type="submit">Search</button>
             </form>
         </div>
@@ -53,6 +55,9 @@
       </div>
     </div>
   </div>
-
+  <form id="searchForm" method="get" action="{% url 'customers:list' %}">
+      <input type="hidden" id="kw" name="kw" value="{{ kw|default_if_none:'' }}">
+      <input type="hidden" id="page" name="page" value="{{ page }}">
+  </form>
 
 {% endblock content %}

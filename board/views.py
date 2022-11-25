@@ -1,13 +1,27 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
+from django.db.models import Q
 from .models import Board
 from .forms import BoardForm
+from django.core.paginator import Paginator
 
 
 def Board_list(request):
+    page = request.GET.get('page', '1')
+    kw = request.GET.get('kw', '')
     Boards = Board.objects.all()
+    if kw:
+        Boards = Boards.filter(
+            Q(title__icontains=kw) |
+            Q(content__icontains=kw)
+        ).distinct()
+    paginator = Paginator(Boards, 5)
+    page_obj = paginator.get_page(page)
+
     context = {
-        "Boards": Boards
+        "Boards": page_obj,
+        "page": page,
+        "kw": kw
     }
     return render(request, "board/list.html", context)
 
@@ -31,7 +45,7 @@ def Board_create(request):
             board.created = timezone.now()
             board.updated = timezone.now()
             board.save()
-            return redirect('/')
+            return redirect('board:list')
 
     context = {
         "form": form
@@ -47,7 +61,8 @@ def Board_update(request, pk):
         form = BoardForm(request.POST, instance=Post)
         if form.is_valid():
             form.save()
-            return render(request, 'board:detail', Post)
+            # return render(request, 'board:detail', Post)
+            return redirect('board:detail', pk)
 
     context = {
         "form": form

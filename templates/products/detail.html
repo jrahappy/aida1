@@ -36,11 +36,10 @@
             {% if request.user.is_staff %}
             
             <div class="mt-5 py-5 border-t border-gray-200">
-                <a href="{% url 'products:list' %}" class="text-blue-500">
+                <a href="{% url 'products:update' product.id %}" class="btn btn-secondary">
                     Edit
                 </a>
-                /
-                <a href="{% url 'products:list' %}" class="ml-3 text-blue-500">
+                <a href="{% url 'products:delete-confirm' product.id %}" class="btn btn-danger">
                     Delete
                 </a>
             </div>

@@ -1,0 +1,38 @@
+[
+    {
+        "model": "customers.customer",
+        "fields": {
+            "author": 1,
+            "business": "Hackensack Hospital",
+            "address": "101 Main St.",
+            "suite": null,
+            "city": "Hackensack",
+            "state": "NJ",
+            "zipcode": "07624",
+            "country": "USA",
+            "website": null,
+            "contact_name": "Dr.Doe John",
+            "slug": null,
+            "description": "Regional Hospital",
+            "salesrep": 0
+        }
+    },
+    {
+        "model": "customers.customer",
+        "fields": {
+            "author": 1,
+            "business": "Closter Hospital",
+            "address": "101 Sylvan St.",
+            "suite": null,
+            "city": "Closter",
+            "state": "NJ",
+            "zipcode": "07624",
+            "country": "USA",
+            "website": null,
+            "contact_name": "Dr.Kim James",
+            "slug": null,
+            "description": "3rd Largest Clinic",
+            "salesrep": 0
+        }
+    }
+]

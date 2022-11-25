@@ -1,0 +1,42 @@
+[
+    {
+        "model": "products.product",
+        "pk": 2,
+        "fields": {
+            "author": 1,
+            "category": "PANO",
+            "name": "Dental Panorama",
+            "price": "150.00"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 3,
+        "fields": {
+            "author": 1,
+            "category": "CBCT",
+            "name": "Full Skull  FOV 20x20cm",
+            "price": "300.00"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 4,
+        "fields": {
+            "author": 1,
+            "category": "CEPH",
+            "name": "Cephalo Lateral/Frontal",
+            "price": "120.00"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 13,
+        "fields": {
+            "author": 1,
+            "category": "CBCT",
+            "name": "Endo mode",
+            "price": "200.00"
+        }
+    }
+]
