@@ -1,0 +1,116 @@
+{% extends "_base.html" %}
+{% load board_filter %} 
+
+{% block content %}
+
+<div class="container">
+    <div class="row ">
+        <div class="col-8 pt-3">
+            <h3>Book detail</h3>
+        </div>
+        <div class="col-4 pt-4 text-end">
+            <a href="{% url 'board:book-list' %}" class="btn btn-md btn-primary  ">Book list</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col my-4">
+           
+        </div>
+    </div>
+    <div class="row">
+        <div class="col ">
+            <h2>{{ book.title }}</h2>
+            {% if book.bookcontents_set.count > 0 %}
+                <span class="text-danger small mx-2">{{ book.bookcontents_set.count }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="row mb-2">
+            <div class="col-10">
+                {{ book.sub_title }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="row mb-2">
+            <div class="col-10">
+                
+                {{ book.version_number }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="row mb-2">
+            <div class="col-10">
+                <strong>Author(s):</strong>
+                {{ book.book_writer }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col my-4 text-align-end ">
+            {{ book.created }} uploaded by {{ book.author }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col my-2">
+            <strong>Product:</strong>
+            <p>{{ book.product_id }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col my-2">
+            <strong>URL name:</strong>
+            <p>{{ book.slug }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col my-2">
+            <strong>Book number:</strong>
+            <p>{{ book.id }}</p>
+        </div>
+    </div>
+    <div class="row">
+        {% if request.user.is_staff %}
+        <div class="col-6 mt-4 py-4 border-t border-gray-200">
+            <a href="{% url 'board:book-edit' book.id %}" class="text-blue-500">
+                Edit
+            </a>
+            /
+            <a href="{% url 'board:book-delete' book.id %}" class="ml-3 text-blue-500">
+                Delete
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col">
+            <form method="post" action="{% url 'board:book-contents-add' book.id %}" >
+                {% csrf_token %}
+
+                <input type="text" class="form-control" name="board" id="board" placeholder="Post ID" 
+                    value="{{ form.board.value|default_if_none:'' }}">
+                <input type="text" class="form-control" name="order_number" id="order_number" placeholder="Order number " 
+                    value="{{ form.order_number.value|default_if_none:'' }}">
+                <input type="text" class="form-control" name="order_name" id="order_name" placeholder="Order name" 
+                    value="{{ form.order_name.value|default_if_none:'' }}">
+                <button class="btn btn-primary" type="submit">Save</button
+                    
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ul>
+                {% for content in book.bookcontents_set.all %}
+                    <li>{{ content.order_name }}</li>
+                {% endfor %}
+                </ul>
+            
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

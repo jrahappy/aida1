@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
+from django.http import HttpResponseNotAllowed
 from django.db.models import Q
-from .models import Board
-from .forms import BoardForm
+from .models import Board, Books, BookContents
+from .forms import BoardForm, BooksForm, BookContentsForm
 from django.core.paginator import Paginator
 
 
@@ -90,3 +91,115 @@ def Board_delete(request, pk):
     Post = Board.objects.get(id=pk)
     Post.delete()
     return redirect("/")
+
+
+def book_list(request):
+    page = request.GET.get('page', '1')
+    kw = request.GET.get('kw', '')
+    books = Books.objects.filter(is_deleted=False)
+    if kw:
+        books = books.filter(
+            Q(title__icontains=kw) |
+            Q(subtitle__icontains=kw)
+        ).distinct()
+    paginator = Paginator(books, 5)
+    page_obj = paginator.get_page(page)
+
+    context = {
+        "books": page_obj,
+        "page": page,
+        "kw": kw
+    }
+    return render(request, "board/book_list.html", context)
+
+
+def book_add(request):
+    form = BooksForm()
+    if request.method == "POST":
+        form = BooksForm(request.POST)
+        if form.is_valid():
+            book = form.save(False)
+            book.author = request.user
+            book.created = timezone.now()
+            book.updated = timezone.now()
+            book.save()
+            return redirect('board:book-list')
+
+    context = {
+        "form": form
+    }
+    return render(request, "board/book_add.html", context)
+
+
+def book_detail(request, book_id):
+
+    book = Books.objects.get(id=book_id)
+    bookcontents = BookContents.objects.filter(books=book_id)
+    context = {
+        "book": book,
+        "bookcontents": bookcontents
+    }
+    return render(request, "board/book_detail.html", context)
+
+
+def book_edit(request, book_id):
+    book = get_object_or_404(Books, id=book_id)
+    if request.method == "POST":
+        form = BooksForm(request.POST, instance=book)
+        if form.is_valid():
+            book = form.save(commit=False)
+            book.updated = timezone.now()
+            book.save()
+            return redirect('board:book-detail', book_id=book.id)
+    else:
+        form = BooksForm(instance=book)
+    context = {
+        "form": form,
+        "book_id": book_id
+    }
+    return render(request, "board/book_edit.html", context)
+
+
+def book_delete(request, book_id):
+    book = get_object_or_404(Books, id=book_id)
+    if request.method == "POST":
+        form = BooksForm(request.POST, instance=book)
+        print("Post.. ")
+        if form.is_valid():
+            book = form.save(commit=False)
+            book.updated = timezone.now()
+            book.is_deleted = True
+            book.save()
+            print("Valid..True ")
+            return redirect('board:book-list')
+        else:
+            print("Valid..False ")
+    else:
+        form = BooksForm(instance=book)
+    context = {
+        "form": form,
+        "book_id": book_id
+    }
+    return render(request, "board/book_delete.html", context)
+
+
+def book_contents_add(request, book_id):
+    book = get_object_or_404(Books, id=book_id)
+    form = BookContentsForm()
+    print(book.id)
+    if request.method == "POST":
+        form = BookContentsForm(request.POST)
+        print(request.POST.get('order_name'))
+        if form.is_valid():
+            contents = form.save(False)
+            contents.books = book
+            contents.save()
+            return redirect('board:book-detail', book_id=book.id)
+        else:
+            print("not Valid")
+
+    context = {
+        "form": form,
+        "book": book
+    }
+    return render(request, "board/book_detail.html", context)

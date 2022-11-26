@@ -5,10 +5,10 @@
 <div class="container">
     <div class="row ">
         <div class="col-8 pt-3">
-            <h3>New post</h3>
+            <h3>Edit book</h3>
         </div>
         <div class="col-4 pt-4 text-end">
-            <a href="{% url 'board:list' %}" class="btn btn-md btn-primary  ">Blog Home</a>
+            <a href="{% url 'board:book-list' %}" class="btn btn-md btn-primary  ">Book list</a>
         </div>
     </div>
     <div class="row">
@@ -42,11 +42,26 @@
             </div>
             <div class="row mb-2">
                 <div class="col-10">
-                    <textarea type="text" class="form-control" rows="20" name="content" id="content">{{ form.content.value|default_if_none:'' }} </textarea>
+                    <input type="text" class="form-control" name="sub_title" id="sub_title" placeholder="Sub title" 
+                    value="{{ form.sub_title.value|default_if_none:'' }}">
                 </div>
             </div>
-
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <div class="row mb-2">
+                <div class="col-4">
+                    <input type="text" class="form-control" name="product_id" id="product_id" placeholder="Product ID" 
+                    value="{{ form.product_id.value|default_if_none:'' }}">
+                </div>
+                <div class="col-4">
+                    <input type="text" class="form-control" name="version_number" id="version_number" placeholder="Version name" 
+                    value="{{ form.version_number.value|default_if_none:'' }}">
+                </div>
+                <div class="col-4">
+                    <input type="text" class="form-control" name="book_writer" id="book_writer" placeholder="Writer" 
+                    value="{{ form.book_writer.value|default_if_none:'' }}">
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Save</button>
+            <a class="btn btn-secondary my-2" href="{% url 'board:book-detail' book_id %}" >Cancel</a>
         </form>
     </div>
 </div>

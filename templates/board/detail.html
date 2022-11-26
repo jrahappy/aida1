@@ -34,10 +34,29 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col my-2">
+            <strong>Title:</strong>
+            <p>{{ Post.title }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col my-2">
+            <strong>URL name:</strong>
+            <p>{{ Post.slug }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col my-2">
+            <strong>Article number:</strong>
+            <p>{{ Post.id }}</p>
+        </div>
+    </div>
     <div class="row">
         {% if request.user.is_staff %}
     
-        <div class="col-6 mt-5 py-5 border-t border-gray-200">
+        <div class="col-6 mt-4 py-4 border-t border-gray-200">
             <a href="{% url 'board:update' Post.id %}" class="text-blue-500">
                 Edit
             </a>

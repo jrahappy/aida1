@@ -6,10 +6,10 @@
 <div class="container">
     <div class="row ">
         <div class="col-8 pt-3">
-            <h3>Blog</h3>
+            <h3>Books</h3>
         </div>
         <div class="col-4 pt-4 text-end">
-            <a href="{% url 'board:create' %}" class="btn btn-md btn-primary  ">Create a post</a>
+            <a href="{% url 'board:book-add' %}" class="btn btn-md btn-primary  ">Create a book</a>
         </div>
     </div>
     <div class="row">
@@ -22,32 +22,31 @@
     </div>
     <div class="row">
         <div class="col" >
-            <div class="col-md-10">
-                {% for post in Boards %}
+            <div class="col-md-8">
+                {% for book in books %}
 
                     <article class="blog-post">
-                        <h2 class="blog-post-title mb-1">{{ post.title }}</h2>
+                        <h3 class="blog-post-title mb-1">{{ book.title }}</h3>
                         
-                        <p class="blog-post-meta">{{ post.created|timesince }} ago by <a href="#">{{ post.author }}</a></p>
+                        <p class="blog-post-meta">{{ book.created|timesince }} ago by <a href="#">{{ post.author }}</a></p>
                         <p>
-                            {{ post.content|mark }}
-                            <a href="{% url 'board:detail' post.id %}" class="">
+                            {{ book.sub_title }}
+                            <a href="{% url 'board:book-detail' book.id %}" class="">
                                 see detail..
                             </a>
                         </p>
                     
                     </article>
-                    <hr/>
                 {% endfor %}
               </div>
 
                
             <!-- 페이징처리 시작 -->
-            <ul class="pagination justify-content-center">
+            <ul class="pagination justify-content-center mt-5">
                 <!-- 이전페이지 -->
-                {% if Boards.has_previous %}
+                {% if books.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" data-page="{{Boards.previous_page_number }}" href="javascript:void(0)">Previous</a>
+                    <a class="page-link" data-page="{{books.previous_page_number }}" href="javascript:void(0)">Previous</a>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
@@ -55,9 +54,9 @@
                 </li>
                 {% endif %}
                 <!-- 페이지리스트 -->
-                {% for page_number in Boards.paginator.page_range %}
-                    {% if page_number >= Boards.number|add:-5 and page_number <= Boards.number|add:5 %}
-                        {% if page_number == Boards.number %}
+                {% for page_number in books.paginator.page_range %}
+                    {% if page_number >= books.number|add:-5 and page_number <= books.number|add:5 %}
+                        {% if page_number == books.number %}
                         <li class="page-item active" aria-current="page">
                             <a class="page-link" href="javascript:void(0)" data-page="{{ page_number }}">{{ page_number }}</a>
                         </li>
@@ -69,9 +68,9 @@
                     {% endif %}
                 {% endfor %}
                 <!-- 다음페이지 -->
-                {% if Boards.has_next %}
+                {% if books.has_next %}
                 <li class="page-item">
-                    <a class="page-link" data-page="{{Board.next_page_number}}" href="javascript:void(0)">Next</a>
+                    <a class="page-link" data-page="{{books.next_page_number}}" href="javascript:void(0)">Next</a>
                 </li>
                 {% else %}
                 <li class="page-item disabled">
@@ -81,7 +80,7 @@
             </ul>
         <!-- 페이징처리 끝 -->
         </div>
-        <form id="searchForm" method="get" action="{% url 'board:list' %}">
+        <form id="searchForm" method="get" action="{% url 'board:book-list' %}">
             <input type="hidden" id="kw" name="kw" value="{{ kw|default_if_none:'' }}">
             <input type="hidden" id="page" name="page" value="{{ page }}">
         </form>
