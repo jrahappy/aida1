@@ -2,6 +2,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.http import HttpResponseNotAllowed, HttpResponse
+from django.views.decorators.http import require_POST
 from django.db.models import Q
 from .models import Board, Books, BookContents
 from .forms import BoardForm, BooksForm, BookContentsForm
@@ -219,7 +220,7 @@ def book_contents_edit(request, content_id):
                 headers={
                     'HX-Trigger': json.dumps({
                         "contentsListChanged": None,
-                        "showMessage": f"{contents.order_name} modified."
+                        "showMessage": " Contents modified."
                     })
                 })
     else:
@@ -240,7 +241,7 @@ def book_contents_delete(request, content_id):
             headers={
                 'HX-Trigger': json.dumps({
                     "contentsListChanged": None,
-                    "showMessage": f"{contents.order_name} modified."
+                    "showMessage": "Content deleted."
                 })
             })
 
@@ -250,6 +251,18 @@ def book_contents_delete(request, content_id):
         'form': form,
     }
     return render(request, 'board/_delete_bookcontents.html', context)
+
+# def remove_movie(request, pk):
+#     movie = get_object_or_404(Movie, pk=pk)
+#     movie.delete()
+#     return HttpResponse(
+#         status=204,
+#         headers={
+#             'HX-Trigger': json.dumps({
+#                 "movieListChanged": None,
+#                 "showMessage": f"{movie.title} deleted."
+#             })
+#         })
 
 
 def table_of_contents(request, book_id):
