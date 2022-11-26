@@ -19,98 +19,125 @@
     </div>
     <div class="row">
         <div class="col ">
-            <h2>{{ book.title }}</h2>
-            {% if book.bookcontents_set.count > 0 %}
-                <span class="text-danger small mx-2">{{ book.bookcontents_set.count }}</span>
-            {% endif %}
+            <h3>{{ book.title }}</h3>
         </div>
     </div>
     <div class="row">
         <div class="row mb-2">
             <div class="col-10">
-                {{ book.sub_title }}
+                <strong>{{ book.sub_title }}</strong>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="row mb-2">
-            <div class="col-10">
-                
+            <div class="col-4">
                 {{ book.version_number }}
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="row mb-2">
-            <div class="col-10">
-                <strong>Author(s):</strong>
-                {{ book.book_writer }}
+            <div class="col-4">
+                Author(s): {{ book.book_writer }}
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col my-4 text-align-end ">
+        <div class="col mb-2 ">
             {{ book.created }} uploaded by {{ book.author }}
         </div>
     </div>
     <div class="row">
-        <div class="col my-2">
-            <strong>Product:</strong>
-            <p>{{ book.product_id }}</p>
+        <div class="col mb-2">
+            <strong>Product:</strong> {{ book.product_id }}
         </div>
     </div>
     <div class="row">
-        <div class="col my-2">
-            <strong>URL name:</strong>
-            <p>{{ book.slug }}</p>
+        <div class="col mb-2">
+            <strong>URL name:</strong> {{ book.slug }}
         </div>
     </div>
     <div class="row">
-        <div class="col my-2">
-            <strong>Book number:</strong>
-            <p>{{ book.id }}</p>
+        <div class="col mb-2">
+            <strong>Book number:</strong> {{ book.id }}
         </div>
     </div>
     <div class="row">
         {% if request.user.is_staff %}
-        <div class="col-6 mt-4 py-4 border-t border-gray-200">
-            <a href="{% url 'board:book-edit' book.id %}" class="text-blue-500">
+        <div class="col-6 mb-2 ">
+            <a href="{% url 'board:book-edit' book.id %}" class="btn btn-sm btn-primary">
                 Edit
             </a>
-            /
-            <a href="{% url 'board:book-delete' book.id %}" class="ml-3 text-blue-500">
+            <a href="{% url 'board:book-delete' book.id %}" class="btn btn-sm btn-danger">
                 Delete
             </a>
         </div>
         {% endif %}
     </div>
+    <hr class="p-1"/>
+   
+    <form method="post" action="{% url 'board:book-contents-add' book.id %}" >
+    {% csrf_token %}
     <div class="row">
-        <div class="col">
-            <form method="post" action="{% url 'board:book-contents-add' book.id %}" >
-                {% csrf_token %}
-
-                <input type="text" class="form-control" name="board" id="board" placeholder="Post ID" 
-                    value="{{ form.board.value|default_if_none:'' }}">
-                <input type="text" class="form-control" name="order_number" id="order_number" placeholder="Order number " 
-                    value="{{ form.order_number.value|default_if_none:'' }}">
-                <input type="text" class="form-control" name="order_name" id="order_name" placeholder="Order name" 
-                    value="{{ form.order_name.value|default_if_none:'' }}">
-                <button class="btn btn-primary" type="submit">Save</button
-                    
-            </form>
+        <div class="row">
+            <div class="col-4">
+                <h3>Build a book </h3>
+            </div>
+            <div class="col-2">
+                <input type="text" class="form-control" name="board" id="board" placeholder="Post ID" value="{{ form.board.value|default_if_none:'' }}">
+            </div>
+            <div class="col-2">
+                <input type="text" class="form-control" name="order_number" id="order_number" placeholder="Order number " value="{{ form.order_number.value|default_if_none:'' }}">
+            </div>
+            <div class="col-2">
+                <input type="text" class="form-control" name="order_name" id="order_name" placeholder="Order name" value="{{ form.order_name.value|default_if_none:'' }}">
+            </div>
+            <div class="col-2">
+                <button class="btn btn-primary" type="submit">Add a content</button>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <ul>
-                {% for content in book.bookcontents_set.all %}
-                    <li>{{ content.order_name }}</li>
-                {% endfor %}
-                </ul>
-            
+    </form>
+    <hr>
+    <div class="row my-4">
+        <div class="col-12 ">
+            <h4>Table of Contents</h4>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-12 ">
+            <div class="row"
+                    hx-trigger="load, contentsListChanged from:body" 
+                    hx-get="{% url 'board:table-of-contents' book.id %}" 
+                    hx-target="this">
+                
+            </div>
+        </div>
+    </div>
+    <div id="modal" class="modal fade" tabindex='-1'>
+        <div id="dialog" class="modal-dialog" hx-target="this">
+
         </div>
     </div>
 
+    <hr class="p-1"/>
+    <div class="row ">
+        <div class="col-12 my-2">
+        
+            {% for content in book.bookcontents_set.all|dictsort:"order_number" %}
+                <strong>{{ content.order_name }}.{{content.board.title}}</strong> {{ content.order_number }}
+                <p>
+                    {{ content.board.content|mark }}
+                </p>
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="d-flex">
+            <div id="toast-body" class="toast-body"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
 
 </div>
 {% endblock %}

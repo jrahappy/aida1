@@ -1,6 +1,7 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from django.http import HttpResponseNotAllowed
+from django.http import HttpResponseNotAllowed, HttpResponse
 from django.db.models import Q
 from .models import Board, Books, BookContents
 from .forms import BoardForm, BooksForm, BookContentsForm
@@ -134,10 +135,8 @@ def book_add(request):
 def book_detail(request, book_id):
 
     book = Books.objects.get(id=book_id)
-    bookcontents = BookContents.objects.filter(books=book_id)
     context = {
         "book": book,
-        "bookcontents": bookcontents
     }
     return render(request, "board/book_detail.html", context)
 
@@ -186,15 +185,17 @@ def book_delete(request, book_id):
 def book_contents_add(request, book_id):
     book = get_object_or_404(Books, id=book_id)
     form = BookContentsForm()
-    print(book.id)
     if request.method == "POST":
         form = BookContentsForm(request.POST)
-        print(request.POST.get('order_name'))
+        # board_id = request.POST.get('board')
+        # board = get_object_or_404(Board, id=board_id)
+        # print(board.title)
         if form.is_valid():
-            contents = form.save(False)
+            contents = form.save(commit=False)
             contents.books = book
             contents.save()
             return redirect('board:book-detail', book_id=book.id)
+            # return render(request, 'board/book_detail.html', context)
         else:
             print("not Valid")
 
@@ -203,3 +204,58 @@ def book_contents_add(request, book_id):
         "book": book
     }
     return render(request, "board/book_detail.html", context)
+
+
+def book_contents_edit(request, content_id):
+    bookcontent = get_object_or_404(BookContents, id=content_id)
+
+    if request.method == "POST":
+        form = BookContentsForm(request.POST, instance=bookcontent)
+        if form.is_valid():
+            contents = form.save(commit=False)
+            contents.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "contentsListChanged": None,
+                        "showMessage": f"{contents.order_name} modified."
+                    })
+                })
+    else:
+        form = BookContentsForm(instance=bookcontent)
+    context = {
+        # 'customer': customer,
+        'form': form,
+    }
+    return render(request, 'board/_edit_bookcontents.html', context)
+
+
+def book_contents_delete(request, content_id):
+    bookcontent = get_object_or_404(BookContents, id=content_id)
+    if request.method == "POST":
+        bookcontent.delete()
+        return HttpResponse(
+            status=204,
+            headers={
+                'HX-Trigger': json.dumps({
+                    "contentsListChanged": None,
+                    "showMessage": f"{contents.order_name} modified."
+                })
+            })
+
+    else:
+        form = BookContentsForm(instance=bookcontent)
+    context = {
+        'form': form,
+    }
+    return render(request, 'board/_delete_bookcontents.html', context)
+
+
+def table_of_contents(request, book_id):
+    book = Books.objects.get(id=book_id)
+    context = {
+        'book': book
+    }
+    print(book.title)
+    return render(request, 'board/_table_of_contents.html', context)

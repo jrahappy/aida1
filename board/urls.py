@@ -15,9 +15,11 @@ urlpatterns = [
     path('books/delete/<int:book_id>/', views.book_delete, name='book-delete'),
     path('books/contents/add/<int:book_id>',
          views.book_contents_add, name='book-contents-add'),
-
-    # path('books/contents/edit/<int:book_contents_id>', book_contents_edit, name='book-contents_edit'),
-    # path('books/contents/delete/<int:book__contents_id>', book_contents_delete, name='book-contents_delete'),
-
+    path('books/contents/list/<int:book_id>',
+         views.table_of_contents, name='table-of-contents'),
+    path('books/contents/edit/<int:content_id>',
+         views.book_contents_edit, name='book-contents-edit'),
+    path('books/contents/delete/<int:content_id>',
+         views.book_contents_delete, name='book-contents-delete'),
 
 ]

@@ -1,0 +1,30 @@
+<div class="row px-2">
+    
+        {% for content in book.bookcontents_set.all|dictsort:"order_number" %}
+        <div class="row">
+            <div class="col-2 mx-2">
+                {{ content.order_name }}
+            </div>
+            <div class="col-1 text:center">
+            -----
+            </div>
+            <div class="col-5">
+                {{content.board.title}}  
+            </div>
+            <div class="col-3 mb-1">
+                
+                <button hx-get="{% url 'board:book-contents-edit' content.id %}" hx-target="#dialog" class="btn btn-sm btn-secondary">
+                    Edit
+                </button>
+                <button hx-get="{% url 'board:book-contents-delete' content.id %}" hx-target="#dialog" class="btn btn-sm btn-danger">
+                    Del
+                </button>
+                
+            </div>
+        </div>
+        {% endfor %}
+    
+</div>
+
+
+

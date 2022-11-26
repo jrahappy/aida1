@@ -49,7 +49,7 @@ class Books(models.Model):
 
 class BookContents(models.Model):
     books = models.ForeignKey(Books, on_delete=models.CASCADE)
-    #board = models.ForeignKey(Board, on_delete=models.CASCADE)
-    board = models.IntegerField(default=0)
+    board = models.ForeignKey(Board, on_delete=models.SET_DEFAULT, default=0)
+    #board = models.IntegerField(default=0)
     order_number = models.IntegerField(default=0)
     order_name = models.CharField(max_length=100)

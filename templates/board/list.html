@@ -6,10 +6,10 @@
 <div class="container">
     <div class="row ">
         <div class="col-8 pt-3">
-            <h3>Blog</h3>
+            <h2>Articles</h2>
         </div>
         <div class="col-4 pt-4 text-end">
-            <a href="{% url 'board:create' %}" class="btn btn-md btn-primary  ">Create a post</a>
+            <a href="{% url 'board:create' %}" class="btn btn-md btn-primary  ">Create a article</a>
         </div>
     </div>
     <div class="row">
@@ -26,9 +26,8 @@
                 {% for post in Boards %}
 
                     <article class="blog-post">
-                        <h2 class="blog-post-title mb-1">{{ post.title }}</h2>
-                        
-                        <p class="blog-post-meta">{{ post.created|timesince }} ago by <a href="#">{{ post.author }}</a></p>
+                        <h2 class="blog-post-title mb-4">{{ post.title }}</h2>
+                        <p class="blog-post-meta mb-4 pb-2 border-bottom">{{ post.created|timesince }} ago by <a href="#">{{ post.author }}</a></p>
                         <p>
                             {{ post.content|mark }}
                             <a href="{% url 'board:detail' post.id %}" class="">
