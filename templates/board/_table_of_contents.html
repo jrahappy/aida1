@@ -12,14 +12,12 @@
                 {{content.board.title}}  
             </div>
             <div class="col-3 mb-1">
-                
                 <button hx-get="{% url 'board:book-contents-edit' content.id %}" hx-target="#dialog" class="btn btn-sm btn-secondary">
                     Edit
                 </button>
                 <button hx-get="{% url 'board:book-contents-delete' content.id %}" hx-target="#dialog" class="btn btn-sm btn-danger">
                     Del
                 </button>
-                
             </div>
         </div>
         {% endfor %}

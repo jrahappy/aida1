@@ -1,0 +1,14 @@
+<div class="row px-2">
+    <div class="row">
+    {% for content in book.bookcontents_set.all|dictsort:"order_number" %}
+    
+        
+            <li class="fs-6">{{content.board.title}} </li>
+        
+    
+    {% endfor %}
+    </div>
+</div>
+
+
+

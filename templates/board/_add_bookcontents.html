@@ -1,0 +1,32 @@
+<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content">
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add a content</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="col my-2">
+            <div class="form-group">
+                <div class="row mb-2">
+                    <div class="col-10 my-1">
+                        <select name="board" id="board" class="form-select" >
+                        {% for post in board %}
+                            <option value="{{post.id}}">{{ post.title }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-5">
+                        <input type="text" class="form-control" name="order_number" id="order_number" placeholder="order_number" value="{{form.order_number.value}}">
+                    </div>
+                    <div class="col-5">
+                        <input type="text" class="form-control" name="order_name" id="order_name" placeholder="order_name" value="{{form.order_name.value}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>

@@ -252,23 +252,55 @@ def book_contents_delete(request, content_id):
     }
     return render(request, 'board/_delete_bookcontents.html', context)
 
-# def remove_movie(request, pk):
-#     movie = get_object_or_404(Movie, pk=pk)
-#     movie.delete()
-#     return HttpResponse(
-#         status=204,
-#         headers={
-#             'HX-Trigger': json.dumps({
-#                 "movieListChanged": None,
-#                 "showMessage": f"{movie.title} deleted."
-#             })
-#         })
-
 
 def table_of_contents(request, book_id):
     book = Books.objects.get(id=book_id)
     context = {
         'book': book
     }
-    print(book.title)
     return render(request, 'board/_table_of_contents.html', context)
+
+
+def table_of_contents_min(request, book_id):
+    book = Books.objects.get(id=book_id)
+    context = {
+        'book': book
+    }
+    return render(request, 'board/_table_of_contents_min.html', context)
+
+
+def book_contents_add2(request, book_id):
+    book = get_object_or_404(Books, id=book_id)
+    board = Board.objects.filter(is_deleted=False)
+
+    if request.method == "POST":
+        form = BookContentsForm(request.POST)
+        if form.is_valid():
+            contents = form.save(commit=False)
+            contents.books = book
+            contents.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "contentsListChanged": None,
+                        "showMessage": " Contents modified."
+                    })
+                })
+    else:
+        form = BookContentsForm()
+    context = {
+        'form': form,
+        'book': book,
+        'board': board,
+    }
+    return render(request, 'board/_add_bookcontents.html', context)
+
+
+def book_read(request, book_id):
+
+    book = Books.objects.get(id=book_id)
+    context = {
+        "book": book,
+    }
+    return render(request, "board/book.html", context)

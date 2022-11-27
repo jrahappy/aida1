@@ -17,9 +17,17 @@ urlpatterns = [
          views.book_contents_add, name='book-contents-add'),
     path('books/contents/list/<int:book_id>',
          views.table_of_contents, name='table-of-contents'),
+    path('books/read/contents/<int:book_id>',
+         views.table_of_contents_min, name='table-of-contents-min'),
+
     path('books/contents/edit/<int:content_id>',
          views.book_contents_edit, name='book-contents-edit'),
     path('books/contents/delete/<int:content_id>',
          views.book_contents_delete, name='book-contents-delete'),
+    path('books/contents/add2/<int:book_id>',
+         views.book_contents_add2, name='book-contents-add2'),
+    path('books/read/<int:book_id>',
+         views.book_read, name='book-read'),
+
 
 ]

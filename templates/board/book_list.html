@@ -28,16 +28,24 @@
                     <article class="blog-post">
                         <h3 class="blog-post-title mb-1">{{ book.title }}</h3>
                         
-                        <p class="blog-post-meta">{{ book.created|timesince }} ago by <a href="#">{{ post.author }}</a></p>
-                        <p>
-                            {{ book.sub_title }}
-                            <a href="{% url 'board:book-detail' book.id %}" class="">
-                                see detail..
+                        <p class="blog-post-meta">{{ book.created|timesince }} ago by {{ book.author }}</p>
+                        <p>{{ book.sub_title }}</p>
+                        <p>    
+                            <a href="{% url 'board:book-read' book.id %}" class="btn btn-sm btn-primary my-2">
+                                Read this book..
                             </a>
                         </p>
-                    
+                        {% if book.author.id == user.id %}
+                        <p class="text-end">
+                            <a href="{% url 'board:book-detail' book.id %}" class="fs-6">
+                                Edit this book..
+                            </a>
+                        </p>
+                        {% endif %}
                     </article>
+                    <hr class="">
                 {% endfor %}
+                
               </div>
 
                

@@ -73,32 +73,14 @@
     </div>
     <hr class="p-1"/>
    
-    <form method="post" action="{% url 'board:book-contents-add' book.id %}" >
-    {% csrf_token %}
-    <div class="row">
-        <div class="row">
-            <div class="col-4">
-                <h3>Build a book </h3>
-            </div>
-            <div class="col-2">
-                <input type="text" class="form-control" name="board" id="board" placeholder="Post ID" value="{{ form.board.value|default_if_none:'' }}">
-            </div>
-            <div class="col-2">
-                <input type="text" class="form-control" name="order_number" id="order_number" placeholder="Order number " value="{{ form.order_number.value|default_if_none:'' }}">
-            </div>
-            <div class="col-2">
-                <input type="text" class="form-control" name="order_name" id="order_name" placeholder="Order name" value="{{ form.order_name.value|default_if_none:'' }}">
-            </div>
-            <div class="col-2">
-                <button class="btn btn-primary" type="submit">Add a content</button>
-            </div>
-        </div>
-    </div>
-    </form>
-    <hr>
     <div class="row my-4">
-        <div class="col-12 ">
+        <div class="col-8 ">
             <h4>Table of Contents</h4>
+        </div>
+        <div class="col-4">
+            <button hx-get="{% url 'board:book-contents-add2' book.id %}" hx-target="#dialog" class="btn btn-sm btn-primary">
+                Add a content
+            </button>
         </div>
     </div>
     <div class="row my-4">
@@ -128,6 +110,13 @@
     <hr class="p-1"/>
     <div class="row ">
         <div class="col-12 my-2">
+            <a href="{% url 'board:book-read' book.id %}" class="btn btn-primary"> Go to this book </a>
+
+        </div>
+    </div>
+    <hr class="p-1"/>
+    <div class="row ">
+        <div class="col-12 my-2">
         
             {% for content in book.bookcontents_set.all|dictsort:"order_number" %}
                 <strong>{{ content.order_name }}.{{content.board.title}}</strong> {{ content.order_number }}
@@ -141,4 +130,5 @@
     
 
 </div>
+
 {% endblock %}
