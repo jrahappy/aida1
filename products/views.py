@@ -79,3 +79,33 @@ def product_delete_confirm(request, pk):
         "product": product
     }
     return render(request, "products/delete_confirm.html", context)
+
+
+def product_edit_x(request, pk):
+    product = Product.objects.get(id=pk)
+    form = ProductForm(instance=product)
+
+    if request.method == "POST":
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('products:list')
+
+    context = {
+        "form": form,
+        "product": product,
+    }
+    return render(request, "products/_update.html", context)
+
+
+def product_edit_u(request, pk):
+    product = Product.objects.get(id=pk)
+    context = {
+        "product": product
+    }
+    print('im here')
+    return render(request, "products/_detail.html", context)
+
+
+def product_edit_s(request, pk):
+    pass

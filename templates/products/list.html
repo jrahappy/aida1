@@ -31,20 +31,22 @@
                     </tr>
                 </thead>
                 <tbody>
-
+             
                 {% for product in products %}
 
-                    <tr>
+                    <tr hx-target="this" hx-swap="outerHTML">
                         <td>{{ product.category }}</td>
                         <td>{{ product.name }}</td>
                         <td>{{ product.price }}</td>
-                        <td class="text-end">
-                            <a href="{% url 'products:detail' product.id %}" class="btn btn-md btn-primary">
+                        <td>
+                            <button hx-get="{% url 'products:edit-x' product.id %}" class="btn btn-sm btn-primary">Edit</button>
+                            <a href="{% url 'products:detail' product.id %}" class="btn btn-sm btn-primary">
                                 Detail
                             </a>
                         </td>
                     </tr>
                 {% endfor %}
+              
                 </tbody>
             </table>
             <!-- 페이징처리 시작 -->
@@ -111,5 +113,9 @@
             document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
             document.getElementById('searchForm').submit();
         });
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }';
+        })
     </script>
+
 {% endblock %}

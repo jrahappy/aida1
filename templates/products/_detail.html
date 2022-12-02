@@ -1,0 +1,11 @@
+<tr hx-target="this" hx-swap="outerHTML">
+    <td>{{ product.category }}</td>
+    <td>{{ product.name }}</td>
+    <td>{{ product.price }}</td>
+    <td>
+        <button hx-get="{% url 'products:edit-x' product.id %}" class="btn btn-sm btn-primary">Edit</button>
+        <a href="{% url 'products:detail' product.id %}" class="btn btn-sm btn-primary">
+            Detail
+        </a>
+    </td>
+</tr>
